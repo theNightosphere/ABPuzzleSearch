@@ -5,7 +5,7 @@ import java.util.TreeSet;
 public class DisplacedTileCount implements Heuristic {
 
 	@Override
-	public int calculateHeuristic(char[] puzzleState) {
+	public int calculateCost(char[] puzzleState) {
 		int sum = 0;
 		TreeSet<Integer> spacesMoved = new TreeSet<Integer>();
 		for(int i = 0; i < 6; i++)
@@ -15,8 +15,7 @@ public class DisplacedTileCount implements Heuristic {
 				if(i-4 < 0)//A tile needs to be moved
 				{
 					int x = 4;
-					//Find the first viable space to move tile at puzzleState[i] and the cost
-					while((puzzleState[x] == 'A') || (spacesMoved.contains(x) && x <= 6))
+					while((x < puzzleState.length) && (spacesMoved.contains(x)) || (puzzleState[x] == 'A'))
 					{
 						x++;
 					}
@@ -34,7 +33,7 @@ public class DisplacedTileCount implements Heuristic {
 					int x = 4;
 					while((puzzleState[x] == 'B') || (spacesMoved.contains(x) && x >= 0))
 					{
-						x++;
+						x--;
 					}
 					if(x > 0)
 					{
