@@ -31,29 +31,37 @@ public class AStarSearch {
 		 });
 		
 		HashSet<PuzzleNode> visitedNodes = new HashSet<PuzzleNode>();
-		 
+		int numberNodesGenerated = 0;
 		successors.add(startNode);
 		while(!successors.isEmpty())
 		{
 			PuzzleNode currentNode = successors.poll();
 			visitedNodes.add(currentNode);
-			
-			for(PuzzleNode n : generateSuccessors(currentNode))
+			ArrayList<PuzzleNode> nodes = (ArrayList<PuzzleNode>)(generateSuccessors(currentNode));
+			numberNodesGenerated += nodes.size();
+			for(PuzzleNode n : nodes)
 			{
 				n.setG(currentNode.getG() + n.calculateCost(currentNode.getPuzzle()));
 				if(isGoal(n))
 				{
 					//If this is the goal, then h(n) = 0
 					n.setH(0);
+					System.out.println("Total number of nodes generated: " + numberNodesGenerated);
 					return generatePathFromGoal(n);
 				}
 				else
 				{
 					n.setH(m_Heuristic.calculateCost(n.getPuzzle()));
-					successors.add(n);
+					//System.out.println("Visited: " + new String(n.getPuzzle()) + " ? " + visitedNodes.contains(n));
+					if(!visitedNodes.contains(n))
+					{
+						successors.add(n);
+					}
 				}
 			}
 		}
+		
+		System.out.println("Total number of nodes generated: " + numberNodesGenerated);
 		
 		return new ArrayDeque<PuzzleNode>();
 	}

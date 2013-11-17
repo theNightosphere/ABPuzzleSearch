@@ -1,7 +1,7 @@
 package edu.uwm.CS690.rajohnson;
 //TODO: Override .equals method so that if my puzzle == other puzzle then they are the same. 
 public class PuzzleNode {
-	private char[] puzzle = new char[7];
+	private char[] puzzle;
 	private int my_g;
 	private int my_h;
 	private PuzzleNode parent;
@@ -79,6 +79,57 @@ public class PuzzleNode {
 		cost = Math.abs(i-j);
 		
 		return cost;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if (obj == null) {
+	        return false;
+	    }
+	    if (getClass() != obj.getClass()) {
+	        return false;
+	    }
+	    final PuzzleNode other = (PuzzleNode) obj;
+	    if (this.puzzle != null && other.puzzle != null)
+	    {
+	    	for(int i = 0; i < this.puzzle.length; i++)
+	    	{
+	    		if(this.puzzle[i] != other.puzzle[i])
+	    		{
+	    			return false;
+	    		}
+	    	}
+	    }
+	    
+	    return true;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		int hash = 0;
+		for(int i = 0; i < puzzle.length; i++)
+		{
+			if(puzzle[i] == 'A')
+			{
+				hash *= 10;
+				hash++;
+			}
+			else if(puzzle[i] == 'B')
+			{
+				hash *= 10;
+				hash += 2;
+			}
+			else if(puzzle[i] == 'X')
+			{
+				hash *= 10;
+				hash += 3;
+			}
+		}
+		
+		return hash;
+		
+		
 	}
 	
 }
